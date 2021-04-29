@@ -1,10 +1,10 @@
-import React from 'react';
-import MainNavigator from './components/MainNavigator';
 
+import React from 'react';
+import Providers from './navigation/Providers';
 
 export default function App() {
   return (
-    <MainNavigator/>
+    <Providers/>
   );
 }
 
