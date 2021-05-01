@@ -15,31 +15,6 @@ const SignUp = ({ navigation }) => {
   const [passwordError, setPasswordError] = useState("");
   const [hasAccount, setHasAccount] = useState(true);
 
-  const handleSignUp = (email, password) => {
-    clearErrors();
-    fb.auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        //   fb.database.
-        navigation.navigate("Login");
-      })
-      .catch((err) => {
-        switch (err.code) {
-          case "auth/invalid-email":
-            setEmailError("Enter a valid email");
-            break;
-          case "auth/email-already-in-use":
-            setEmailError(
-              "This email is already registered.\nEnter a different email"
-            );
-            break;
-          case "auth/weak-password":
-            setPasswordError("Password length should be at least 8 characters");
-            break;
-        }
-      });
-  };
-
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="auto" />
