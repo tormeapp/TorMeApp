@@ -1,10 +1,16 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Button } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
+  KeyboardAvoidingView,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { AuthContext } from "../navigation/AuthProvider";
-import { KeyboardAvoidingView } from "react-native";
-import { Input, Image } from "react-native-elements";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { Input } from "react-native-elements";
+// import Icon from "react-native-vector-icons/FontAwesome";
 
 function Login({ navigation }) {
   const { login } = useContext(AuthContext);
@@ -16,44 +22,49 @@ function Login({ navigation }) {
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <StatusBar style="auto" />
-      <Image
-        source={require("../assets/Logo.png")}
-        style={{ width: 300, height: 100, marginBottom: 90 }}
-      />
-      <View style={styles.inputContainer}>
-        <Input
-          placeholder="Email"
-          leftIcon={{ type: "font-awesome", name: "envelope" }}
-          autoFocus
-          type="Email"
-          value={email}
-          onChangeText={(email) => setEmail(email)}
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-        <Text>{emailError}</Text>
-        <Input
-          placeholder="Password"
-          leftIcon={{ type: "font-awesome", name: "lock" }}
-          type="Password"
-          value={password}
-          secureTextEntry
-          onChangeText={(password) => setPassword(password)}
-        />
-        <Text>{passwordError}</Text>
-        <TouchableOpacity
-          onPress={() => login(email, password)}
-          style={styles.loginButton}
-        >
-          <Text>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("SignUp")}
-          style={styles.signUpButton}
-        >
-          <Text>SignUp</Text>
-        </TouchableOpacity>
-      </View>
+      <ImageBackground
+        source={require("../assets/bgV2.jpg")}
+        style={styles.backgroundImage}
+      >
+        {/* <Image
+          source={require("../assets/Logo.png")}
+          style={{ width: 300, height: 100, marginBottom: 90 }}
+        /> */}
+        <View style={styles.inputContainer}>
+          <Input
+            placeholder="Email"
+            leftIcon={{ type: "font-awesome", name: "envelope" }}
+            autoFocus
+            type="Email"
+            value={email}
+            onChangeText={(email) => setEmail(email)}
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+          <Text>{emailError}</Text>
+          <Input
+            placeholder="Password"
+            leftIcon={{ type: "font-awesome", name: "lock" }}
+            type="Password"
+            value={password}
+            secureTextEntry
+            onChangeText={(password) => setPassword(password)}
+          />
+          <Text>{passwordError}</Text>
+          <TouchableOpacity
+            onPress={() => login(email, password)}
+            style={styles.loginButton}
+          >
+            <Text>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("SignUp")}
+            style={styles.signUpButton}
+          >
+            <Text>SignUp</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </KeyboardAvoidingView>
   );
 }
@@ -63,8 +74,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: 10,
-    backgroundColor: "#0081a7",
+    // padding: 10,
+    // backgroundColor: "#0081a7",
+    // flexDirection: "column",
+  },
+
+  backgroundImage: {
+    // flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
   },
 
   // Testing diff buttons working on diff levels
@@ -85,13 +105,16 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   inputContainer: {
-    marginBottom: 20,
-    width: 350,
-    height: 350,
-    padding: 10,
-    backgroundColor: "#fdfcdc",
+    // marginBottom: 20,
+    // width: 350,
+    // height: 350,
+    // padding: 10,
+    backgroundColor: "white",
     borderRadius: 10,
     alignItems: "center",
+    width: 350,
+    marginLeft: 30,
+    marginTop: 100,
   },
 });
 

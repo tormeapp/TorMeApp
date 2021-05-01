@@ -23,7 +23,8 @@
     "react-native-screens": "~2.15.2",
     "react-native-web": "~0.13.12",
     "firebase": "7.9.0",
-    "expo-linear-gradient": "~8.4.0"
+    "expo-linear-gradient": "~8.4.0",
+    "expo-asset": "~8.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

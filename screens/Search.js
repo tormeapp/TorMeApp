@@ -4,14 +4,13 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import DatePicker from "../components/DatePicker/DatePicker";
 import { AuthContext } from "../navigation/AuthProvider";
-import { KeyboardAvoidingView } from "react-native";
-import { Input, Image } from "react-native-elements";
+import { Input } from "react-native-elements";
 
 function Search({ navigation }) {
   const { user, logout } = useContext(AuthContext);

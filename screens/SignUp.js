@@ -1,10 +1,9 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../navigation/AuthProvider";
-import { View, TextInput, Button, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import fb from "../fb";
-import { KeyboardAvoidingView } from "react-native";
-import { Input, Image } from "react-native-elements";
+import { Input } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const SignUp = ({ navigation }) => {
