@@ -4,13 +4,13 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ImageBackground,
   KeyboardAvoidingView,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { AuthContext } from "../navigation/AuthProvider";
 import { Input } from "react-native-elements";
 // import Icon from "react-native-vector-icons/FontAwesome";
+import BackgroundImg from "../components/Background/BackgroundImg";
 
 function Login({ navigation }) {
   const { login } = useContext(AuthContext);
@@ -20,37 +20,35 @@ function Login({ navigation }) {
   const [password, setPassword] = useState("");
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <StatusBar style="auto" />
-      <ImageBackground
-        source={require("../assets/bgV2.jpg")}
-        style={styles.backgroundImage}
-      >
-        {/* <Image
-          source={require("../assets/Logo.png")}
-          style={{ width: 300, height: 100, marginBottom: 90 }}
-        /> */}
+    <View style={styles.container}>
+      <BackgroundImg img={require("../assets/bgV2.jpg")} />
+      <KeyboardAvoidingView behavior="padding">
+        <StatusBar style="auto" />
         <View style={styles.inputContainer}>
-          <Input
-            placeholder="Email"
-            leftIcon={{ type: "font-awesome", name: "envelope" }}
-            autoFocus
-            type="Email"
-            value={email}
-            onChangeText={(email) => setEmail(email)}
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
+          <View style={styles.emailContainer}>
+            <Input
+              placeholder="Email"
+              leftIcon={{ type: "font-awesome", name: "envelope" }}
+              autoFocus
+              type="Email"
+              value={email}
+              onChangeText={(email) => setEmail(email)}
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
           <Text>{emailError}</Text>
-          <Input
-            placeholder="Password"
-            leftIcon={{ type: "font-awesome", name: "lock" }}
-            type="Password"
-            value={password}
-            secureTextEntry
-            onChangeText={(password) => setPassword(password)}
-          />
-          <Text>{passwordError}</Text>
+          <View style={styles.passwordContainer}>
+            <Input
+              placeholder="Password"
+              leftIcon={{ type: "font-awesome", name: "lock" }}
+              type="Password"
+              value={password}
+              secureTextEntry
+              onChangeText={(password) => setPassword(password)}
+            />
+            <Text>{passwordError}</Text>
+          </View>
           <TouchableOpacity
             onPress={() => login(email, password)}
             style={styles.loginButton}
@@ -64,37 +62,30 @@ function Login({ navigation }) {
             <Text>SignUp</Text>
           </TouchableOpacity>
         </View>
-      </ImageBackground>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "center",
     // padding: 10,
     // backgroundColor: "#0081a7",
     // flexDirection: "column",
   },
 
-  backgroundImage: {
-    // flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center",
-    width: "100%",
-    height: "100%",
-  },
-
   // Testing diff buttons working on diff levels
   loginButton: {
     width: 250,
     alignItems: "center",
-    backgroundColor: "#8ac926",
+    backgroundColor: "#4ac926",
     padding: 10,
     borderRadius: 7,
     margin: 10,
+    marginTop: 30,
   },
   signUpButton: {
     width: 250,
@@ -105,16 +96,23 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   inputContainer: {
-    // marginBottom: 20,
-    // width: 350,
-    // height: 350,
-    // padding: 10,
-    backgroundColor: "white",
-    borderRadius: 10,
     alignItems: "center",
-    width: 350,
-    marginLeft: 30,
-    marginTop: 100,
+    justifyContent: "center",
+    padding: 120,
+  },
+  emailContainer: {
+    width: 300,
+    height: 70,
+    backgroundColor: "white",
+    opacity: 0.2,
+    borderRadius: 7,
+  },
+  passwordContainer: {
+    width: 300,
+    height: 70,
+    backgroundColor: "white",
+    opacity: 0.2,
+    borderRadius: 7,
   },
 });
 

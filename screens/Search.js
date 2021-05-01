@@ -11,31 +11,44 @@ import { StatusBar } from "expo-status-bar";
 import DatePicker from "../components/DatePicker/DatePicker";
 import { AuthContext } from "../navigation/AuthProvider";
 import { Input } from "react-native-elements";
+import BackgroundImg from "../components/Background/BackgroundImg";
 
 function Search({ navigation }) {
   const { user, logout } = useContext(AuthContext);
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <StatusBar style="auto" />
-      <View style={styles.header}>
-        <Text style={{ margin: 30, color: "white" }}>
-          HomePage, Welcome {user.email.slice(0, user.email.indexOf("@"))}
-        </Text>
-        <View style={styles.inputContainer}>
-          <Input
-            placeholder="Search for anything.."
-            leftIcon={{ type: "font-awesome", name: "search" }}
-          />
+    <View style={styles.container}>
+      <BackgroundImg img={require("../assets/bgV2.jpg")} />
+      <KeyboardAvoidingView behavior="padding">
+        <StatusBar style="auto" />
+        <View style={styles.header}>
+          <Text
+            style={{
+              textAlign: "center",
+              color: "white",
+              fontSize: 30,
+              fontFamily: "Verdana",
+            }}
+          >
+            Welcome {user.email.slice(0, user.email.indexOf("@"))}
+          </Text>
         </View>
-      </View>
-      <TouchableOpacity
-        style={styles.logoutBtn}
-        onPress={() => logout()}
-        style={styles.logOutButton}
-      >
-        <Text>Log Out</Text>
-      </TouchableOpacity>
-    </KeyboardAvoidingView>
+        <View style={styles.inputContainer}>
+          <View style={styles.searchContainer}>
+            <Input
+              placeholder="Search for anything.."
+              leftIcon={{ type: "font-awesome", name: "search" }}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.logoutBtn}
+            onPress={() => logout()}
+            style={styles.logOutButton}
+          >
+            <Text>Log Out</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </View>
   );
 }
 
@@ -44,22 +57,20 @@ export default Search;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+  },
+  header: {},
+  inputContainer: {
     alignItems: "center",
     justifyContent: "center",
-    padding: 10,
-    backgroundColor: "#0081a7",
+    padding: 120,
   },
-  inputContainer: {
-    marginBottom: 20,
+  searchContainer: {
     width: 300,
-    padding: 10,
-    backgroundColor: "#fdfcdc",
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  header: {
-    alignItems: "center",
-    flex: 1,
+    height: 70,
+    backgroundColor: "white",
+    opacity: 0.2,
+    borderRadius: 7,
   },
   logOutButton: {
     width: 250,
@@ -67,6 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ff595e",
     padding: 10,
     borderRadius: 7,
-    margin: 30,
+    margin: 10,
+    marginTop: 30,
   },
 });
