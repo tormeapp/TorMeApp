@@ -3,14 +3,14 @@ import {
   Button,
   View,
   Text,
+  TextInput,
   StyleSheet,
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import DatePicker from "../components/DatePicker/DatePicker";
+// import DatePicker from "../components/DatePicker/DatePicker";
 import { AuthContext } from "../navigation/AuthProvider";
-import { Input } from "react-native-elements";
 import BackgroundImg from "../components/Background/BackgroundImg";
 
 function Search({ navigation }) {
@@ -34,10 +34,8 @@ function Search({ navigation }) {
         </View>
         <View style={styles.inputContainer}>
           <View style={styles.searchContainer}>
-            <Input
-              placeholder="Search for anything.."
-              leftIcon={{ type: "font-awesome", name: "search" }}
-            />
+            <TextInput
+              placeholder="Search for anything.."/>
           </View>
           <TouchableOpacity
             style={styles.logoutBtn}
