@@ -1,10 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../navigation/AuthProvider";
-import { View, Text, StyleSheet, KeyboardAvoidingView } from "react-native";
+import { View, Text, TouchableOpacity, TextInput,StyleSheet, KeyboardAvoidingView } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import fb from "../fb";
-import { Input } from "react-native-elements";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import BackgroundImg from "../components/Background/BackgroundImg";
 
 const SignUp = ({ navigation }) => {
@@ -12,8 +9,6 @@ const SignUp = ({ navigation }) => {
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
   const [hasAccount, setHasAccount] = useState(true);
 
   return (
@@ -23,22 +18,18 @@ const SignUp = ({ navigation }) => {
         <StatusBar style="auto" />
         <View style={styles.inputContainer}>
           <View style={styles.emailContainer}>
-            <Input
+            <TextInput
               placeholder="Email"
               onChangeText={(email) => setEmail(email)}
-              leftIcon={{ type: "font-awesome", name: "envelope" }}
             />
           </View>
-          <Text>{emailError}</Text>
           <View style={styles.passwordContainer}>
-            <Input
+            <TextInput
               placeholder="Password"
-              leftIcon={{ type: "font-awesome", name: "lock" }}
               secureTextEntry={true}
               onChangeText={(password) => setPassword(password)}
             />
           </View>
-          <Text>{passwordError}</Text>
           <TouchableOpacity
             onPress={() => register(email, password)}
             style={styles.signUpButton}
@@ -46,7 +37,7 @@ const SignUp = ({ navigation }) => {
             <Text>Sign Up</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate('Login')}
             style={styles.loginButton}
           >
             <Text>Already have an account? Log In</Text>
