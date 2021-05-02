@@ -3,13 +3,12 @@ import {
   StyleSheet,
   View,
   Text,
+  TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { AuthContext } from "../navigation/AuthProvider";
-import { Input } from "react-native-elements";
-// import Icon from "react-native-vector-icons/FontAwesome";
 import BackgroundImg from "../components/Background/BackgroundImg";
 
 function Login({ navigation }) {
@@ -26,10 +25,8 @@ function Login({ navigation }) {
         <StatusBar style="auto" />
         <View style={styles.inputContainer}>
           <View style={styles.emailContainer}>
-            <Input
+            <TextInput
               placeholder="Email"
-              leftIcon={{ type: "font-awesome", name: "envelope" }}
-              autoFocus
               type="Email"
               value={email}
               onChangeText={(email) => setEmail(email)}
@@ -39,12 +36,11 @@ function Login({ navigation }) {
           </View>
           <Text>{emailError}</Text>
           <View style={styles.passwordContainer}>
-            <Input
+            <TextInput
               placeholder="Password"
-              leftIcon={{ type: "font-awesome", name: "lock" }}
               type="Password"
               value={password}
-              secureTextEntry
+              secureTextEntry={true}
               onChangeText={(password) => setPassword(password)}
             />
             <Text>{passwordError}</Text>
