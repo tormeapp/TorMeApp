@@ -9,6 +9,10 @@ npm-debug.*
 *.orig.*
 web-build/
 
+# misc 
+.env.local
+
 # macOS
 .DS_Store
 fb.js
+clientID.*

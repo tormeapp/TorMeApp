@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
-import Loading from '../components/Loading/Loading';
-import BackgroundImg from "../components/Background/BackgroundImg";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import Loading from "../components/Loading/Loading";
 import Avatar from "../components/Avatar/Avatar";
+import SearchBar from "../components/Search/SearchBar";
 import {
   View,
   Image,
@@ -10,69 +10,217 @@ import {
   StyleSheet,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
-// import DatePicker from "../components/DatePicker/DatePicker";
 import { AuthContext } from "../navigation/AuthProvider";
 import fb from "../fb";
+import { LinearGradient } from "expo-linear-gradient";
+import useResults from "../hooks/useResults";
+import ResultsList from "../components/Search/ResultsList";
+import { Picker } from "@react-native-picker/picker";
+import { Alert } from "react-native";
+import Constants from "expo-constants";
+import * as Notifications from "expo-notifications";
+import { useIsFocused } from "@react-navigation/native";
+import fetchUserData from "../hooks/fetchUserData";
 
-function Search({ navigation}) {
-  const { user, logout } = useContext(AuthContext);
-  const [data, setData] = useState({});
-  
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
+
+// const schedule = new Date();
+// schedule.setHours(21);
+// schedule.setMinutes(7);
+
+// console.log(schedule);
+
+// Notifications.scheduleNotificationAsync({
+//   content: {
+//     title: "text",
+//     body: "text",
+//   },
+//   trigger: {
+//     schedule,
+//     repeats: true,
+//   },
+// });
+
+function Search({ navigation }) {
+  const { user } = useContext(AuthContext);
+  const [term, setTerm] = useState("");
+  const [getBusinesses, results] = useResults();
+  const [category, setCategory] = useState("");
+  const [isCategory, setIsCategory] = useState(false);
   const userInfo = fb.database().ref().child(`users/${user.uid}`);
+  const isFocused = useIsFocused();
+  const { userData, loading, error } = fetchUserData(isFocused);
+
+  console.log(category);
 
   useEffect(() => {
-    userInfo.once("value", function(snapshot) {
-      const info = snapshot.val();
-      const list = [];
-      for (let id in info) {
-        list.push( {id, ...info[id]} );
-      }
-      setData(list[0]);
-    }, function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
+    if (category === "") {
+      setIsCategory(false);
+    } else {
+      setIsCategory(true);
+    }
+  }, [category]);
+
+  useEffect(() => {
+    if (isFocused) {
+      setTerm("");
+    }
+  }, [isFocused]);
+
+  const searchByCat = () => {
+    return results.filter((result) => {
+      return (
+        result.category === category &&
+        result.name.toLowerCase().startsWith(term.toLowerCase())
+      );
     });
-  },[])
+  };
+
+  const searchFilter = (keyword) => {
+    if (keyword !== "") {
+      const found = results.filter((result) =>
+        result.name.toLowerCase().startsWith(keyword.toLowerCase())
+      );
+      return found;
+    }
+  };
+
+  // Notifications
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  const navigateToBusiness = (result) => {
+    navigation.navigate("Business", {
+      ...result,
+      pushToken: expoPushToken,
+    });
+  };
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) =>
+      setExpoPushToken(token)
+    );
+
+    // This listener is fired whenever a notification is received while the app is foregrounded
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
+
+    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        //console.log(response);
+      });
+
+    return () => {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
+
+  // Notifications Permissions.
+  async function registerForPushNotificationsAsync() {
+    let token;
+    if (Constants.isDevice) {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        alert("Failed to get push token for push notification!");
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log(token);
+    } else {
+      alert("Must use physical device for Push Notifications");
+    }
+
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }
+    return token;
+  }
 
   return (
-    <View style={styles.container}>
-      <BackgroundImg img={require("../assets/bgV2.jpg")} />
-      <KeyboardAvoidingView behavior="padding">
-        <StatusBar style="auto" />
-        <TouchableOpacity
-          style={styles.avatarContainer}
-          onPress={() => navigation.navigate('Profile')}
-        >
-         <Avatar/>
-        </TouchableOpacity>
-
-        <View style={styles.header}>
-          <Text
-            style={{
-              textAlign: "center",
-              color: "white",
-              fontSize: 30,
-              fontFamily: "Verdana",
-            }}
-          >
-            {data.firstName === undefined&& data.lastName === undefined  ? (<Loading/>) : ("Welcome "+data.firstName + " " + data.lastName)}{console.log(data)}
-          </Text>
-        </View>
-        <View style={styles.inputContainer}>
-          <View style={styles.searchContainer}>
-            <TextInput
-              placeholder="Search for anything.."/>
+    <View>
+      <LinearGradient
+        colors={["#95f9c3", "#32c4c0", "#60b6f1"]}
+        style={styles.background}
+      >
+        <KeyboardAvoidingView behavior="padding">
+          <StatusBar style="auto" />
+          <View style={styles.container}>
+            <View style={styles.header}>
+              <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+                <Avatar />
+              </TouchableOpacity>
+              <Text style={styles.headerText}>
+                {userData.firstName === undefined &&
+                userData.lastName === undefined ? (
+                  <Loading />
+                ) : (
+                  "Welcome " + userData.firstName + " " + userData.lastName
+                )}
+              </Text>
+            </View>
+            <View style={styles.inputContainer}>
+              <View style={styles.inputContainerLeft}>
+                <SearchBar
+                  term={term}
+                  onTermChange={setTerm}
+                  //onTermSubmit={getBusinesses}
+                  onValueChange={getBusinesses}
+                />
+              </View>
+              <View style={styles.inputContainerRight}>
+                <Picker
+                  //style={{ height: 50 }}
+                  itemStyle={{ height: 50 }}
+                  selectedValue={category}
+                  onValueChange={(itemValue) => {
+                    setCategory(itemValue) + getBusinesses();
+                  }}
+                >
+                  <Picker.Item label="" value="" />
+                  <Picker.Item label="Food" value="food" />
+                  <Picker.Item label="Beauty" value="beauty" />
+                  <Picker.Item label="Healthcare" value="healthcare" />
+                  <Picker.Item label="Handyman" value="handyman" />
+                </Picker>
+              </View>
+            </View>
+            <View style={styles.results}>
+              <ResultsList
+                results={isCategory ? searchByCat() : searchFilter(term)}
+                handleClick={navigateToBusiness}
+              />
+            </View>
           </View>
-          <TouchableOpacity
-            style={styles.logoutBtn}
-            onPress={() => logout()}
-            style={styles.logOutButton}
-          >
-            <Text>Log Out</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </LinearGradient>
     </View>
   );
 }
@@ -81,48 +229,57 @@ export default Search;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  avatarContainer: {
-    flexDirection: "row",
+    alignContent: "center",
     alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 30,
+    padding: 20,
   },
-  avatar: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    borderWidth: 2,
-    borderColor: "white",
+  background: {
+    width: "100%",
+    height: "100%",
   },
-  header: {},
-  inputContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 120,
-  },
-  searchContainer: {
-    width: 300,
-    height: 70,
-    backgroundColor: "white",
-    opacity: 0.2,
-    borderRadius: 7,
-  },
-  avatarContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 30,
-  },
-  logOutButton: {
-    width: 250,
-    alignItems: "center",
-    backgroundColor: "#ff595e",
-    padding: 10,
-    borderRadius: 7,
-    margin: 10,
+  header: {
     marginTop: 30,
+    alignItems: "center",
+  },
+  headerText: {
+    textShadowColor: "#FFF",
+    textShadowRadius: 10,
+    textAlignVertical: "center",
+    lineHeight: 40,
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  inputContainer: {
+    flexDirection: "row",
+  },
+  inputContainerLeft: {
+    backgroundColor: "#FFF",
+    //borderRadius: 25,
+    width: "60%",
+    height: 50,
+    opacity: 0.5,
+    // marginVertical: 40,
+    borderBottomLeftRadius: 25,
+    borderTopLeftRadius: 25,
+    margin: 2,
+  },
+  inputContainerRight: {
+    backgroundColor: "#fff",
+    width: "35%",
+    height: 50,
+    opacity: 0.5,
+    //marginVertical: 40,
+    borderTopRightRadius: 25,
+    borderBottomRightRadius: 25,
+    margin: 2,
+    //overflow: "hidden",
+  },
+  // input: {
+  //   height: 50,
+  //   padding: 15,
+  // },
+  results: {
+    width: "100%",
+    margin: 5,
   },
 });

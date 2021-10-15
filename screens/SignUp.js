@@ -1,9 +1,15 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../navigation/AuthProvider";
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
-import BackgroundImg from "../components/Background/BackgroundImg";
-
+import { LinearGradient } from "expo-linear-gradient";
 
 const SignUp = ({ navigation }) => {
   const { register } = useContext(AuthContext);
@@ -13,119 +19,126 @@ const SignUp = ({ navigation }) => {
   const [password, setPassword] = useState("");
 
   const registerUser = () => {
-    if (firstName.length <= 1 || lastName.length <= 2){
-      return alert('Please fill out your first and last name');
+    if (firstName.length <= 1 || lastName.length <= 2) {
+      return alert("Please fill out your first and last name");
     }
     register(email, password, firstName, lastName);
     resetInputs();
-  }
+  };
 
-    const resetInputs = () => {
-      setEmail("");
-      setPassword("");
-      setFirstName("");
-      setLastName("");
-    }
+  const resetInputs = () => {
+    setEmail("");
+    setPassword("");
+    setFirstName("");
+    setLastName("");
+  };
 
-
-    return  (
-      <View style={styles.container}>
-        <BackgroundImg img={require("../assets/bgV2.jpg")} />
+  return (
+    <View>
+      <LinearGradient
+        colors={["#95f9c3", "#32c4c0", "#60b6f1"]}
+        style={styles.background}
+      >
         <KeyboardAvoidingView behavior="padding">
-          <View style={styles.inputContainer}>
-            <StatusBar style="auto" />
-            <View style={styles.emailContainer}>
+          <StatusBar style="auto" />
+          <View style={styles.container}>
+            <View style={styles.logo}>
+              <Text style={styles.logoText}>TORME</Text>
+              <Text style={{ fontSize: 13, opacity: 0.7 }}>
+                Appointment Scheduling app for small independent businesses.
+              </Text>
+            </View>
+            <View style={styles.inputContainer}>
               <TextInput
+                style={styles.input}
                 placeholder="Enter your name"
+                placeholderTextColor="black"
                 onChangeText={(name) => setFirstName(name)}
               />
             </View>
-            <View style={styles.emailContainer}>
+            <View style={styles.inputContainer}>
               <TextInput
+                style={styles.input}
                 placeholder="Enter your last name"
+                placeholderTextColor="black"
                 onChangeText={(last) => setLastName(last)}
               />
             </View>
-            <View style={styles.emailContainer}>
+            <View style={styles.inputContainer}>
               <TextInput
+                style={styles.input}
                 placeholder="Email"
+                placeholderTextColor="black"
                 onChangeText={(email) => setEmail(email)}
               />
             </View>
-            <View style={styles.passwordContainer}>
+            <View style={styles.inputContainer}>
               <TextInput
+                style={styles.input}
                 placeholder="Password"
+                placeholderTextColor="black"
                 secureTextEntry={true}
                 onChangeText={(password) => setPassword(password)}
               />
             </View>
             <TouchableOpacity
+              style={styles.signUpBtn}
               onPress={() => registerUser()}
-              style={styles.signUpButton}
             >
               <Text>Sign Up</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Login')}
-              style={styles.loginButton}
-            >
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
               <Text>Already have an account? Log In</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
-      </View>
-    );
-  };
+      </LinearGradient>
+    </View>
+  );
+};
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      // alignItems: "center",
-      justifyContent: "center",
-      // padding: 10,
-      // backgroundColor: "#0081a7",
-      // flexDirection: "column",
-    },
-
-    // Testing diff buttons working on diff levels
-    loginButton: {
-      width: 250,
-      alignItems: "center",
-      backgroundColor: "#ff595e",
-      padding: 10,
-      borderRadius: 7,
-      margin: 10,
-    },
-    signUpButton: {
-      width: 250,
-      alignItems: "center",
-      backgroundColor: "#4ac926",
-      padding: 10,
-      borderRadius: 7,
-      margin: 10,
-      marginTop: 30,
-    },
-    inputContainer: {
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 120,
-    },
-    emailContainer: {
-      width: 300,
-      padding: 20,
-      height: 35,
-      backgroundColor: "white",
-      opacity: 0.2,
-      borderRadius: 7,
-    },
-    passwordContainer: {
-      width: 300,
-      padding: 20,
-      height: 35,
-      backgroundColor: "white",
-      opacity: 0.2,
-      borderRadius: 7,
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    alignContent: "center",
+    alignItems: "center",
+  },
+  background: {
+    width: "100%",
+    height: "100%",
+  },
+  inputContainer: {
+    backgroundColor: "#FFF",
+    borderRadius: 25,
+    width: "70%",
+    height: 50,
+    marginBottom: 15,
+    opacity: 0.5,
+  },
+  input: {
+    height: 50,
+    padding: 15,
+  },
+  logo: {
+    marginBottom: 70,
+    marginTop: 20,
+  },
+  logoText: {
+    fontWeight: "bold",
+    fontSize: 60,
+    color: "#05445E",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  signUpBtn: {
+    width: "40%",
+    backgroundColor: "#FFF",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    marginBottom: 10,
+  },
+});
 
 export default SignUp;
