@@ -38,7 +38,7 @@ const MyAppointments = ({ route, navigation }) => {
       >
         <FlatList
           // contentContainerStyle={styles.appointmentList}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.id}
           data={data}
           renderItem={({ item }) => {
             return (

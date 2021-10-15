@@ -1,18 +1,34 @@
 import React from "react";
-import { FlatList } from "react-native";
+import { FlatList, Animated, Dimensions } from "react-native";
 import { StyleSheet, Text, View } from "react-native";
 import ResultDetails from "./ResultDetails";
 
 const ResultsList = ({ results, handleClick }) => {
+  const { width, height } = Dimensions.get('screen');
+  const scrollX = React.useRef(new Animated.Value(0)).current; 
+
   return (
     <View>
-      <FlatList
+      <Animated.FlatList
         horizontal
+        snapToInterval={1}
+        snapToAlignment='center'
+        pagingEnabled={true}
+        scrollEventThrottle={16}
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {x: scrollX}}}],
+          {useNativeDriver: false}
+        )}
         showsHorizontalScrollIndicator={false}
         data={results}
         keyExtractor={(result) => result.id}
-        renderItem={({ item }) => {
-          return <ResultDetails result={item} handleClick={handleClick} />;
+        renderItem={({ item, index }) => {
+          const inputRange = [
+            (index - 1) * (150),
+            index * (150),
+            (index + 1) * (150),
+          ]
+          return <ResultDetails result={item} handleClick={handleClick} inputRange={inputRange} scrollX={scrollX}/>;
         }}
       />
     </View>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import fb from "../fb";
 
 export default (isSearch) => {
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState();
   const businessRef = fb.database().ref().child(`businesses`);
 
   const getBusinesses = () => {
@@ -14,7 +14,6 @@ export default (isSearch) => {
       }
 
       setResults(businessList);
-      //console.log(businessList);
     });
   };
 

@@ -63,6 +63,7 @@ function Search({ navigation }) {
   console.log(category);
 
   useEffect(() => {
+    getBusinesses();
     if (category === "") {
       setIsCategory(false);
     } else {
@@ -204,7 +205,7 @@ function Search({ navigation }) {
                     setCategory(itemValue) + getBusinesses();
                   }}
                 >
-                  <Picker.Item label="" value="" />
+                  <Picker.Item label="Category" value="" />
                   <Picker.Item label="Food" value="food" />
                   <Picker.Item label="Beauty" value="beauty" />
                   <Picker.Item label="Healthcare" value="healthcare" />
@@ -213,10 +214,14 @@ function Search({ navigation }) {
               </View>
             </View>
             <View style={styles.results}>
-              <ResultsList
+              {results && <ResultsList
                 results={isCategory ? searchByCat() : searchFilter(term)}
                 handleClick={navigateToBusiness}
-              />
+              />}
+              {results && <ResultsList
+                results={results}
+                handleClick={navigateToBusiness}
+              />}
             </View>
           </View>
         </KeyboardAvoidingView>
