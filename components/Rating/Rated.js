@@ -7,6 +7,7 @@ import {
   Image,
   View,
 } from "react-native";
+import { v1 as uuid } from "uuid";
 
 const Rated = ({ rating }) => {
   //const [defaultRating, setDefaultRating] = useState(rating);
@@ -19,13 +20,21 @@ const Rated = ({ rating }) => {
 
   for (let i = 0; i < avgRate; i++) {
     rows.push(
-      <Image style={styles.starImgStyle} source={{ uri: starImgFilled }} />
+      <Image
+        key={uuid()}
+        style={styles.starImgStyle}
+        source={{ uri: starImgFilled }}
+      />
     );
   }
 
   for (let i = 0; i < 5 - avgRate; i++) {
     rows.push(
-      <Image style={styles.starImgStyle} source={{ uri: starImgCorner }} />
+      <Image
+        key={uuid()}
+        style={styles.starImgStyle}
+        source={{ uri: starImgCorner }}
+      />
     );
   }
 
