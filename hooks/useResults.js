@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import fb from "../fb";
 
-export default (isSearch) => {
+export default () => {
   const [results, setResults] = useState();
   const businessRef = fb.database().ref().child(`businesses`);
 

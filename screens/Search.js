@@ -33,23 +33,6 @@ Notifications.setNotificationHandler({
   }),
 });
 
-// const schedule = new Date();
-// schedule.setHours(21);
-// schedule.setMinutes(7);
-
-// console.log(schedule);
-
-// Notifications.scheduleNotificationAsync({
-//   content: {
-//     title: "text",
-//     body: "text",
-//   },
-//   trigger: {
-//     schedule,
-//     repeats: true,
-//   },
-// });
-
 function Search({ navigation }) {
   const { user } = useContext(AuthContext);
   const [term, setTerm] = useState("");
@@ -60,7 +43,7 @@ function Search({ navigation }) {
   const isFocused = useIsFocused();
   const { userData, loading, error } = fetchUserData(isFocused);
 
-  console.log(category);
+
 
   useEffect(() => {
     getBusinesses();
@@ -214,14 +197,18 @@ function Search({ navigation }) {
               </View>
             </View>
             <View style={styles.results}>
-              {results && <ResultsList
-                results={isCategory ? searchByCat() : searchFilter(term)}
-                handleClick={navigateToBusiness}
-              />}
-              {results && <ResultsList
-                results={results}
-                handleClick={navigateToBusiness}
-              />}
+              {results && (
+                <ResultsList
+                  results={isCategory ? searchByCat() : searchFilter(term)}
+                  handleClick={navigateToBusiness}
+                />
+              )}
+              {results && (
+                <ResultsList
+                  results={results}
+                  handleClick={navigateToBusiness}
+                />
+              )}
             </View>
           </View>
         </KeyboardAvoidingView>
