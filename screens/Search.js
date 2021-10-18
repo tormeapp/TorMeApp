@@ -43,8 +43,6 @@ function Search({ navigation }) {
   const isFocused = useIsFocused();
   const { userData, loading, error } = fetchUserData(isFocused);
 
-
-
   useEffect(() => {
     getBusinesses();
     if (category === "") {
@@ -175,7 +173,6 @@ function Search({ navigation }) {
                 <SearchBar
                   term={term}
                   onTermChange={setTerm}
-                  //onTermSubmit={getBusinesses}
                   onValueChange={getBusinesses}
                 />
               </View>
@@ -254,6 +251,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 25,
     borderTopLeftRadius: 25,
     margin: 2,
+    marginBottom: 20,
   },
   inputContainerRight: {
     backgroundColor: "#fff",
@@ -272,6 +270,9 @@ const styles = StyleSheet.create({
   // },
   results: {
     width: "100%",
+    height: "100%",
     margin: 5,
+    borderRadius: 7,
+    padding: 5,
   },
 });

@@ -86,7 +86,6 @@ const MyAppointments = ({ route, navigation }) => {
         style={{ width: "100%", height: "100%" }}
       >
         <FlatList
-          // contentContainerStyle={styles.appointmentList}
           keyExtractor={(item) => item.id}
           data={data}
           renderItem={({ item }) => {

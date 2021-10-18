@@ -94,7 +94,7 @@ const Business = ({ route, navigation }) => {
             <Text style={styles.name}>
               {JSON.stringify(name).replaceAll('"', "")}
             </Text>
-            {user.uid !== BUID ? <StarRating buid={BUID} /> : <></>}
+            {BUID && user.uid !== BUID ? <StarRating buid={BUID} /> : <></>}
             <Text style={styles.category}>
               {JSON.stringify(category).replaceAll('"', "")}
             </Text>
