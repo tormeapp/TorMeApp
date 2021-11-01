@@ -45,6 +45,10 @@ function Search({ navigation }) {
 
   useEffect(() => {
     getBusinesses();
+  }, [isFocused]);
+
+  useEffect(() => {
+    getBusinesses();
     if (category === "") {
       setIsCategory(false);
     } else {
@@ -168,6 +172,7 @@ function Search({ navigation }) {
                 )}
               </Text>
             </View>
+
             <View style={styles.inputContainer}>
               <View style={styles.inputContainerLeft}>
                 <SearchBar
@@ -200,12 +205,13 @@ function Search({ navigation }) {
                   handleClick={navigateToBusiness}
                 />
               )}
-              {results && (
-                <ResultsList
-                  results={results}
-                  handleClick={navigateToBusiness}
-                />
-              )}
+              {term.length > 0 ||
+                (!isCategory && (
+                  <ResultsList
+                    results={results}
+                    handleClick={navigateToBusiness}
+                  />
+                ))}
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -243,11 +249,9 @@ const styles = StyleSheet.create({
   },
   inputContainerLeft: {
     backgroundColor: "#FFF",
-    //borderRadius: 25,
     width: "60%",
     height: 50,
     opacity: 0.5,
-    // marginVertical: 40,
     borderBottomLeftRadius: 25,
     borderTopLeftRadius: 25,
     margin: 2,
@@ -271,8 +275,6 @@ const styles = StyleSheet.create({
   results: {
     width: "100%",
     height: "100%",
-    margin: 5,
-    borderRadius: 7,
-    padding: 5,
+    
   },
 });

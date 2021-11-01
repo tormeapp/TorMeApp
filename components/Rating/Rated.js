@@ -8,6 +8,9 @@ import {
   View,
 } from "react-native";
 import { v1 as uuid } from "uuid";
+import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 
 const Rated = ({ rating }) => {
   //const [defaultRating, setDefaultRating] = useState(rating);
@@ -19,23 +22,11 @@ const Rated = ({ rating }) => {
     "https://raw.githubusercontent.com/tranhonghan/images/main/star_corner.png";
 
   for (let i = 0; i < avgRate; i++) {
-    rows.push(
-      <Image
-        key={uuid()}
-        style={styles.starImgStyle}
-        source={{ uri: starImgFilled }}
-      />
-    );
+    rows.push(<Entypo name="star" size={24} color="#800080" />);
   }
 
   for (let i = 0; i < 5 - avgRate; i++) {
-    rows.push(
-      <Image
-        key={uuid()}
-        style={styles.starImgStyle}
-        source={{ uri: starImgCorner }}
-      />
-    );
+    rows.push(<Entypo name="star-outlined" size={24} color="#800080" />);
   }
 
   return <SafeAreaView style={styles.container}>{rows}</SafeAreaView>;
@@ -45,7 +36,7 @@ export default Rated;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    // padding: 10,
     justifyContent: "center",
     flexDirection: "row",
   },
