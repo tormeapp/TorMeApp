@@ -22,8 +22,9 @@ import StarRating from "../components/Rating/StarRating";
 // Date variables
 const today = new Date();
 const maxMonth = (today.getMonth() + 2) % 12;
+const maxYear = today.getFullYear() + (today.getMonth() <= 8 ? 0 : 1);
 // Calendar props
-const maxDate = new Date(today.getFullYear(), maxMonth, 0);
+const maxDate = new Date(maxYear, maxMonth, 0);
 
 const Business = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
