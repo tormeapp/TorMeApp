@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import fb from "../../fb";
 import { AuthContext } from "../../navigation/AuthProvider";
+import { Entypo } from "@expo/vector-icons";
 
 const StarRating = ({ buid }) => {
   const [defaultRating, setDefaultRating] = useState(0);
@@ -80,13 +81,10 @@ const StarRating = ({ buid }) => {
               key={item}
               onPress={() => setDefaultRating(item) + handleRating(item)}
             >
-              <Image
-                style={styles.starImgStyle}
-                source={
-                  item <= defaultRating
-                    ? { uri: starImgFilled }
-                    : { uri: starImgCorner }
-                }
+              <Entypo
+                name={item <= defaultRating ? "star" : "star-outlined"}
+                size={30}
+                color="#800080"
               />
             </TouchableOpacity>
           );
