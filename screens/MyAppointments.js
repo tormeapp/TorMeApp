@@ -90,20 +90,34 @@ const MyAppointments = ({ route, navigation }) => {
           data={data}
           renderItem={({ item }) => {
             return (
-              <View style={styles.appointmentView}>
-                <Text style={styles.text}>{`${item.date.substr(
-                  item.date.length - 2
-                )}/${item.date.substr(item.date.length / 2, 2)}   ${
-                  item.appointmentStart
-                }-${item.appointmentEnd}   ${item.businessName}`}</Text>
-                <TouchableOpacity onPress={() => handleDelete(item)}>
-                  <MaterialIcons
-                    style={styles.icon}
-                    name="delete-forever"
-                    size={24}
-                    color="black"
-                  />
-                </TouchableOpacity>
+              <View>
+                <LinearGradient
+                colors={["#95f9c3", "#32c4c0", "#60b5f1"]}
+                >
+                <View style={styles.appointmentView}>
+                  <View>
+                    <Text style={styles.text}>{item.businessName}</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.text}>{item.date.replaceAll('-', '/')}</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.text}>{
+                    `${item.appointmentStart}-${item.appointmentEnd}`}
+                    </Text>
+                  </View>
+                  <View>
+                    <TouchableOpacity onPress={() => handleDelete(item)}>
+                      <MaterialIcons
+                        style={styles.icon}
+                        name="delete-forever"
+                        size={24}
+                        color="black"
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                </LinearGradient>
               </View>
             );
           }}
@@ -116,12 +130,25 @@ const MyAppointments = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {},
   appointmentView: {
-    backgroundColor: "white",
-    width: 200,
-    padding: 5,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    fontWeight: '500',
+    fontSize: 18,
+    // marginVertical: 15,
+    width: '95%',
+    padding: 15,
     borderRadius: 7,
-    alignSelf: "center",
+    borderWidth: 2,
+    alignSelf: "center",  
     marginVertical: 5,
+  },
+  background: {
+    marginVertical: 15,
+    // height: '50%',
+    borderRadius: 7,
+    width: '50%',
   },
   text: {
     fontSize: 18,

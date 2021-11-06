@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { useOrientation } from "../hooks/useOrientation";
 import { StatusBar } from "expo-status-bar";
 import { AuthContext } from "../navigation/AuthProvider";
 import { LinearGradient } from "expo-linear-gradient";
@@ -19,6 +20,9 @@ function Login({ navigation }) {
   const [passwordError, setPasswordError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const orientation = useOrientation();
+
+  console.log(orientation);
 
   return (
     <View>
