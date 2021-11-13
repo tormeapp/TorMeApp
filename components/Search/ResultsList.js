@@ -48,8 +48,11 @@ export default ResultsList;
 const styles = StyleSheet.create({
   listContainer: {
     width: "100%",
+    display: "flex",
   },
   list: {
-    paddingVertical: 10,
+    //paddingVertical: 10,
+    margin: 10,
+    padding: 10,
   },
 });

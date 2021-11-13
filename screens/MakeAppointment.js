@@ -293,30 +293,44 @@ const MakeAppointment = ({ route, navigation }) => {
           )}
           renderItem={({ item, index }) => {
             return (
-              <TouchableOpacity
-                style={styles.appointment}
-                onPress={() =>
-                  makeApponintment(item) +
-                  setAppointment({
-                    id: item.key,
-                    businessName,
-                    appointmentStart: item.appointmentStart,
-                    appointmentEnd: item.appointmentEnd,
-                    date: date,
-                    scheduled: true,
-                  })
-                }
-              >
-                <Text style={{ textAlign: "center" }}>{`appointment ${
-                  index + 1
-                }`}</Text>
-                <Text style={{ textAlign: "center" }}>
-                  {item.appointmentStart}
-                </Text>
-                <Text style={{ textAlign: "center" }}>
-                  {item.appointmentEnd}
-                </Text>
-              </TouchableOpacity>
+              <View style={styles.appointmentCard}>
+                <LinearGradient
+                  colors={["#95f9c3", "#32c4c0", "#60b6f1"]}
+                  style={{ height: "100%", width: "100%", borderRadius: 7 }}
+                >
+                  <TouchableOpacity
+                    style={styles.appointment}
+                    onPress={() =>
+                      makeApponintment(item) +
+                      setAppointment({
+                        id: item.key,
+                        businessName,
+                        appointmentStart: item.appointmentStart,
+                        appointmentEnd: item.appointmentEnd,
+                        date: date,
+                        scheduled: true,
+                      })
+                    }
+                  >
+                    <Text
+                      style={{
+                        textAlign: "center",
+                        fontSize: 18,
+                      }}
+                    >
+                      {"From -  " + item.appointmentStart}
+                    </Text>
+                    <Text
+                      style={{
+                        textAlign: "center",
+                        fontSize: 18,
+                      }}
+                    >
+                      {"To - " + item.appointmentEnd}
+                    </Text>
+                  </TouchableOpacity>
+                </LinearGradient>
+              </View>
             );
           }}
         ></FlatList>
@@ -328,24 +342,20 @@ const MakeAppointment = ({ route, navigation }) => {
 export default MakeAppointment;
 
 const styles = StyleSheet.create({
-  background: {
-    width: "100%",
-    height: "100%",
-  },
   appointmentList: {
     alignContent: "center",
     alignItems: "center",
   },
-  // container: {
-  //   alignItems: "center",
-  //   alignContent: "center",
-  // },
+  container: { flex: 1 },
   appointment: {
-    width: 200,
     padding: 10,
-    marginVertical: 5,
-    borderStyle: "solid",
-    borderWidth: 3,
-    borderRadius: 25,
+    margin: 5,
+  },
+  appointmentCard: {
+    width: 300,
+    borderRadius: 7,
+    borderWidth: 2,
+    height: 70,
+    marginTop: "5%",
   },
 });

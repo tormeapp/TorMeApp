@@ -273,8 +273,7 @@ const styles = StyleSheet.create({
   //   padding: 15,
   // },
   results: {
-    width: "100%",
-    height: "100%",
-    padding: 5,
+    // width: "100%",
+    //height: "100%",
   },
 });
