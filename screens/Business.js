@@ -18,6 +18,7 @@ import { AuthContext } from "../navigation/AuthProvider";
 import Loading from "../components/Loading/Loading";
 import { Calendar } from "react-native-calendars";
 import StarRating from "../components/Rating/StarRating";
+import { MaterialIcons } from "@expo/vector-icons";
 
 // Date variables
 const today = new Date();
@@ -84,6 +85,19 @@ const Business = ({ route, navigation }) => {
     setToggle((prev) => !prev);
   };
 
+  const getName = () => {
+    switch (category) {
+      case "handyman":
+        return "handyman";
+      case "food":
+        return "fastfood";
+      case "beauty":
+        return "spa";
+      case "healthcare":
+        return "local-hospital";
+    }
+  };
+
   return (
     <SafeAreaView>
       <LinearGradient
@@ -92,34 +106,47 @@ const Business = ({ route, navigation }) => {
       >
         <View style={styles.container}>
           <View style={styles.busCard}>
-            <Text style={styles.name}>
-              {JSON.stringify(name).replaceAll('"', "")}
-            </Text>
-            {BUID && user.uid !== BUID ? <StarRating buid={BUID} /> : <></>}
-            <Text style={styles.category}>
-              {JSON.stringify(category).replaceAll('"', "")}
-            </Text>
-            <Text style={styles.address}>
-              We are at: {JSON.stringify(address).replaceAll('"', "")}
-            </Text>
-            <Text style={styles.hours}>
-              Open from {openningHours} to {closingHours}
-            </Text>
+            <LinearGradient
+              colors={["#95f9c3", "#32c4c0", "#60b6f1"]}
+              style={{ height: "100%", width: "100%", borderRadius: 7 }}
+            >
+              <View style={styles.cardHeader}>
+                <Text style={styles.name}>
+                  {JSON.stringify(name).replaceAll('"', "")}
+                </Text>
+                <MaterialIcons name={getName()} size={24} color="#800080" />
+              </View>
+
+              <View style={styles.cardInfo}>
+                <Text style={styles.address}>
+                  We are at: {JSON.stringify(address).replaceAll('"', "")}
+                </Text>
+                <Text style={styles.hours}>
+                  Open from {openningHours} to {closingHours}
+                </Text>
+              </View>
+              {BUID && user.uid !== BUID ? <StarRating buid={BUID} /> : <></>}
+            </LinearGradient>
           </View>
 
-          <View style={{ padding: 5 }}>
-            <Text style={{ fontSize: 10, textAlign: "center" }}>
-              Press the calendar and set your appointment!
-            </Text>
+          <View style={{ padding: 10, marginTop: 10 }}>
             <TouchableOpacity
               style={{
-                marginTop: 10,
                 justifyContent: "center",
                 alignSelf: "center",
+                flexDirection: "column",
+                alignItems: "center",
               }}
               onPress={() => handleToggle() + fadeIn()}
             >
-              <AntDesign name="calendar" size={40} />
+              <AntDesign name="calendar" size={40} color={"#800080"} />
+              <Text
+                style={{
+                  fontSize: 14,
+                }}
+              >
+                Set your appointment!
+              </Text>
             </TouchableOpacity>
           </View>
           <Animated.View
@@ -167,20 +194,12 @@ export default Business;
 
 const styles = StyleSheet.create({
   container: {
+    display: "flex",
     justifyContent: "space-around",
-  },
-  address: {
-    fontSize: 20,
-  },
-  category: {
-    fontSize: 20,
-    textTransform: "uppercase",
-  },
-  hours: {
-    fontSize: 20,
+    alignItems: "center",
   },
   name: {
-    fontSize: 30,
+    fontSize: 24,
     textAlign: "center",
   },
   background: {
@@ -191,14 +210,28 @@ const styles = StyleSheet.create({
     padding: 5,
     marginHorizontal: 10,
     marginVertical: 5,
-    opacity: 0.9,
     borderRadius: 7,
+    width: 365,
   },
   busCard: {
-    backgroundColor: "white",
+    width: 350,
+
     borderRadius: 7,
-    marginHorizontal: 10,
-    marginVertical: 10,
-    padding: 5,
+    borderWidth: 2,
+    height: 200,
+    marginTop: "10%",
+  },
+  cardHeader: {
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+    borderBottomWidth: 1.5,
+    borderBottomColor: "#d7d7d7",
+    padding: 15,
+    flexDirection: "row",
+  },
+  cardInfo: {
+    alignItems: "center",
+    padding: 7,
   },
 });

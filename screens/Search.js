@@ -226,7 +226,6 @@ const styles = StyleSheet.create({
   container: {
     alignContent: "center",
     alignItems: "center",
-    padding: 20,
   },
   background: {
     width: "100%",
@@ -246,6 +245,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: "row",
+    padding: 20,
   },
   inputContainerLeft: {
     backgroundColor: "#FFF",
@@ -273,8 +273,7 @@ const styles = StyleSheet.create({
   //   padding: 15,
   // },
   results: {
-    width: "100%",
-    height: "100%",
-    
+    // width: "100%",
+    //height: "100%",
   },
 });
