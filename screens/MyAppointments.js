@@ -81,7 +81,7 @@ const MyAppointments = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <LinearGradient
+      <LinearGradient 
         colors={["#95f9c3", "#32c4c0", "#60b6f1"]}
         style={{ width: "100%", height: "100%" }}
       >
@@ -90,8 +90,9 @@ const MyAppointments = ({ route, navigation }) => {
           data={data}
           renderItem={({ item }) => {
             return (
-              <View>
+              <View style={styles.appointmentWrapper}>
                 <LinearGradient
+                style={styles.background}
                 colors={["#95f9c3", "#32c4c0", "#60b5f1"]}
                 >
                 <View style={styles.appointmentView}>
@@ -136,26 +137,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     fontWeight: '500',
     fontSize: 18,
-    // marginVertical: 15,
-    width: '95%',
-    padding: 15,
+    width: '100%%',
+    height:'100%',
     borderRadius: 7,
     borderWidth: 2,
-    alignSelf: "center",  
-    marginVertical: 5,
+  },
+  appointmentWrapper: {
+
   },
   background: {
-    marginVertical: 15,
-    // height: '50%',
+    margin: 15,
+    height: '50%',
     borderRadius: 7,
-    width: '50%',
+    width: '90%',
   },
   text: {
     fontSize: 18,
     textAlign: "center",
   },
   icon: {
-    textAlign: "right",
+    // textAlign: "right",
   },
 });
 
